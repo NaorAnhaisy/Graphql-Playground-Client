@@ -2,8 +2,8 @@ import { useQuery } from "@apollo/client";
 import { getSpecificBook } from "../../graphql/queries";
 
 interface Props {
-    bookID: string;
-};
+  bookID: string;
+}
 
 export default function Books({ bookID }: Props) {
   const { data, error, loading } = useQuery(getSpecificBook, {
