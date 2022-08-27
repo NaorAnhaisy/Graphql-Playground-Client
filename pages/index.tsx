@@ -14,7 +14,6 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to the library!</h1>
         <BooksCards />
         <AddBook />
       </main>

@@ -2,9 +2,11 @@ import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../context/state";
 import { getAllBooks } from "../../graphql/queries";
+
+// Components:
 import BookDetails from "../BookDetails/BookDetails";
 
-export default function Books() {
+export default function BooksCards() {
   const { data, error, loading } = useQuery(getAllBooks);
   const [selectedBook, setSelectedBook] = useState(null);
   const { books, setBooks } = useAppContext();

@@ -49,6 +49,10 @@ const addBookMutation = gql`
     addBook(name: $name, genre: $genre, authorID: $authorID) {
       id
       name
+      genre
+      author {
+        id
+      }
     }
   }
 `;
