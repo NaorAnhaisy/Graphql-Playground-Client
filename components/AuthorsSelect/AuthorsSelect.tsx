@@ -12,6 +12,10 @@ export default function AuthorsSelect({ onChangeAuthor }: Props) {
   const { authors, setAuthors } = useAppContext();
 
   useEffect(() => {
+    onChangeAuthor(data?.authors[0].id);
+  }, [data, onChangeAuthor]);
+
+  useEffect(() => {
     if (data) setAuthors(data.authors);
   }, [data, setAuthors]);
 

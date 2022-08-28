@@ -1,24 +1,24 @@
 import { useMutation } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { addBookMutation } from "../../graphql/queries";
 
 // Components:
 import AuthorsSelect from "../AuthorsSelect/AuthorsSelect";
 
-export default function AddBook() {
+interface Props {
+  refetch: Function;
+}
+export default function AddBook({ refetch }: Props) {
   const [addBook, { data, error, loading }] = useMutation(addBookMutation);
 
   const [name, setName] = useState("");
   const [genre, setGenre] = useState("");
   const [authorID, setAuthorID] = useState<String | null>(null);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const submitForm = (e: React.SyntheticEvent) => {
     e.preventDefault();
     addBook({ variables: { name, genre, authorID } });
+    refetch();
   };
 
   if (loading) return <p>Submitting...</p>;

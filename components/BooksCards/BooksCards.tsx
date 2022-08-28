@@ -1,13 +1,22 @@
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../context/state";
 import { getAllBooks } from "../../graphql/queries";
 
 // Components:
 import BookDetails from "../BookDetails/BookDetails";
+import AddBook from "../AddBook/AddBook";
 
 export default function BooksCards() {
-  const { data, error, loading } = useQuery(getAllBooks);
+  const [getBooks, { data, error, loading }] = useLazyQuery(getAllBooks, {
+    fetchPolicy: "cache-first", // Used for first execution
+    nextFetchPolicy: "network-only", // Used for subsequent executions
+  });
+
+  useEffect(() => {
+    getBooks();
+  }, [getBooks]);
+
   const [selectedBook, setSelectedBook] = useState(null);
   const { books, setBooks } = useAppContext();
 
@@ -28,6 +37,7 @@ export default function BooksCards() {
         );
       })}
       {selectedBook && <BookDetails bookID={selectedBook} />}
+      <AddBook refetch={() => getBooks()} />
     </div>
   );
 }
