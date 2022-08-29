@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addBookMutation } from "../../graphql/queries";
 import styles from "./AddBook.module.css";
 
@@ -19,6 +19,7 @@ export default function AddBook({ refetch }: Props) {
 
   const submitForm = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    console.log({ name, genre, authorID });
     await addBook({ variables: { name, genre, authorID } });
     refetch();
   };
@@ -32,7 +33,7 @@ export default function AddBook({ refetch }: Props) {
         <Col sm={12} md={6}>
           <Form.Group className="mb-3">
             <Form.Control
-              type="email"
+              type="text"
               placeholder="Book's name"
               onChange={(e) => setName(e.target.value)}
             />
@@ -42,7 +43,7 @@ export default function AddBook({ refetch }: Props) {
         <Col sm={12} md={6}>
           <Form.Group className="mb-3">
             <Form.Control
-              type="email"
+              type="text"
               placeholder="Book's genre"
               onChange={(e) => setGenre(e.target.value)}
             />
@@ -50,10 +51,10 @@ export default function AddBook({ refetch }: Props) {
         </Col>
       </Row>
 
-      <AuthorsSelect
-        onChangeAuthor={(authorID: String) => setAuthorID(authorID)}
-      />
-      <Button className={styles.submitBtn} type="submit">Add Book</Button>
+      <AuthorsSelect onChangeAuthor={setAuthorID} />
+      <Button className={styles.submitBtn} type="submit">
+        Add Book
+      </Button>
     </Form>
   );
 }
