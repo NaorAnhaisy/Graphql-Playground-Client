@@ -9,8 +9,8 @@ import AddBook from "../AddBook/AddBook";
 
 export default function BooksCards() {
   const [getBooks, { data, error, loading }] = useLazyQuery(getAllBooks, {
-    fetchPolicy: "cache-first", // Used for first execution
-    nextFetchPolicy: "network-only", // Used for subsequent executions
+    fetchPolicy: "no-cache", // Used for first execution
+    nextFetchPolicy: "no-cache", // Used for subsequent executions
   });
 
   useEffect(() => {
