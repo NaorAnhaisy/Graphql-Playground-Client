@@ -15,9 +15,9 @@ export default function AddBook({ refetch }: Props) {
   const [genre, setGenre] = useState("");
   const [authorID, setAuthorID] = useState<String | null>(null);
 
-  const submitForm = (e: React.SyntheticEvent) => {
+  const submitForm = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    addBook({ variables: { name, genre, authorID } });
+    await addBook({ variables: { name, genre, authorID } });
     refetch();
   };
 
