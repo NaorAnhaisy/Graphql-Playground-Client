@@ -5,6 +5,8 @@
     gap: 15px;
     max-height: 60vh;
     overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-word;
 }
 
 .bookCard {

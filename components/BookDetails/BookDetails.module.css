@@ -14,7 +14,20 @@
     font-size: 20px;
 }
 
+.bookDetailsContainer ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
 .bookDetailsContainer ul li {
     text-align: left;
     font-size: 18px;
+    width: 85%;
+    word-break: break-word;
+}
+
+.deleteBookBtn {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
 }

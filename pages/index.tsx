@@ -26,7 +26,7 @@ const Home: NextPage = () => {
             <BooksCards />
           </Col>
           <Col sm={12} md={8} className={styles.bookDetailsColumn}>
-            {selectedBookID && <BookDetails bookID={selectedBookID} />}
+            {selectedBookID && <BookDetails bookID={selectedBookID} refetch={() => {}} />}
           </Col>
         </Row>
       </main>

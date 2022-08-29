@@ -1,7 +1,7 @@
-import { useMutation } from "@apollo/client";
-import { useEffect, useState } from "react";
-import { addBookMutation } from "../../graphql/queries";
 import styles from "./AddBook.module.css";
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { addBookMutation } from "../../graphql/queries";
 
 // Components:
 import { Row, Col, Form, Button } from "react-bootstrap";
@@ -10,8 +10,9 @@ import AuthorsSelect from "../AuthorsSelect/AuthorsSelect";
 interface Props {
   refetch: Function;
 }
+
 export default function AddBook({ refetch }: Props) {
-  const [addBook, { data, error, loading }] = useMutation(addBookMutation);
+  const [addBook, { error, loading }] = useMutation(addBookMutation);
 
   const [name, setName] = useState("");
   const [genre, setGenre] = useState("");
@@ -19,7 +20,6 @@ export default function AddBook({ refetch }: Props) {
 
   const submitForm = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log({ name, genre, authorID });
     await addBook({ variables: { name, genre, authorID } });
     refetch();
   };

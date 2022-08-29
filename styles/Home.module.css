@@ -13,7 +13,6 @@
 }
 
 .main > .booksRow > div {
-  display: flex;
   justify-content: center;
   padding: 40px;
   padding-right: 15px;

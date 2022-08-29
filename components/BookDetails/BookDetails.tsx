@@ -1,27 +1,37 @@
-import { useQuery } from "@apollo/client";
-import { getSpecificBook } from "../../graphql/queries";
 import styles from "./BookDetails.module.css";
+import { useMutation, useQuery } from "@apollo/client";
+import { getSpecificBook } from "../../graphql/queries";
+import { deleteBookMutation } from "../../graphql/queries";
+import { useAppContext } from "../../context/state";
 
 // Components:
 import { LineWave } from "react-loader-spinner";
-import { useEffect } from "react";
+import { Button } from "react-bootstrap";
 
 interface Props {
   bookID: string;
+  refetch: Function;
 }
 
 interface AuthorBook {
   name: string;
 }
 
-export default function Books({ bookID }: Props) {
+export default function Books({ bookID, refetch }: Props) {
+  const { setSelectedBookID } = useAppContext();
+
   const { data, error, loading } = useQuery(getSpecificBook, {
     variables: { bookID },
   });
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const [deleteBook, { error: deleteBookError, loading: deleteBookLoading }] =
+    useMutation(deleteBookMutation);
+
+  const deleteBookClicked = async () => {
+    await deleteBook({ variables: { bookID: data.book.id } });
+    setSelectedBookID(null);
+    refetch();
+  };
 
   if (loading)
     return (
@@ -37,16 +47,33 @@ export default function Books({ bookID }: Props) {
 
   return (
     <div className={styles.bookDetailsContainer}>
-      <h1>{data.book.name}</h1>
-      <h3>
-        {data.book.author.name} ({data.book.author.age})
-      </h3>
-      <p>All author&apos;s books:</p>
-      <ul>
-        {data.book.author.books.map((authorBook: AuthorBook, i: number) => {
-          return <li key={i}>{authorBook.name}</li>;
-        })}
-      </ul>
+      <div className={styles.deleteBookBtn}>
+        <Button
+          variant="outline-danger"
+          className={styles.submitBtn}
+          onClick={() => deleteBookClicked()}
+        >
+          Delete Book
+        </Button>
+      </div>
+      {deleteBookLoading ? (
+        <p>loading...</p>
+      ) : deleteBookError ? (
+        <p>Error occurred while deleting book: {deleteBookError.message}</p>
+      ) : (
+        <div>
+          <h1>{data.book.name}</h1>
+          <h3>
+            {data.book.author.name} ({data.book.author.age})
+          </h3>
+          <p>All author&apos;s books:</p>
+          <ul>
+            {data.book.author.books.map((authorBook: AuthorBook, i: number) => {
+              return <li key={i}>{authorBook.name}</li>;
+            })}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
