@@ -1,8 +1,10 @@
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { addBookMutation } from "../../graphql/queries";
+import styles from "./AddBook.module.css";
 
 // Components:
+import { Row, Col, Form, Button } from "react-bootstrap";
 import AuthorsSelect from "../AuthorsSelect/AuthorsSelect";
 
 interface Props {
@@ -25,23 +27,33 @@ export default function AddBook({ refetch }: Props) {
   if (error) return <p>Submission error! {error.message}</p>;
 
   return (
-    <div>
-      <form onSubmit={submitForm}>
-        <input
-          type="text"
-          placeholder="name"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="genre"
-          onChange={(e) => setGenre(e.target.value)}
-        />
-        <AuthorsSelect
-          onChangeAuthor={(authorID: String) => setAuthorID(authorID)}
-        />
-        <button type="submit">Add Book</button>
-      </form>
-    </div>
+    <Form className={styles.addBookForm} onSubmit={submitForm}>
+      <Row>
+        <Col sm={12} md={6}>
+          <Form.Group className="mb-3">
+            <Form.Control
+              type="email"
+              placeholder="Book's name"
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Form.Group>
+        </Col>
+
+        <Col sm={12} md={6}>
+          <Form.Group className="mb-3">
+            <Form.Control
+              type="email"
+              placeholder="Book's genre"
+              onChange={(e) => setGenre(e.target.value)}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
+
+      <AuthorsSelect
+        onChangeAuthor={(authorID: String) => setAuthorID(authorID)}
+      />
+      <Button className={styles.submitBtn} type="submit">Add Book</Button>
+    </Form>
   );
 }

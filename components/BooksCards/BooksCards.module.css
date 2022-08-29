@@ -1,0 +1,26 @@
+.booksCards {
+    display: flex;
+    max-width: 100%;
+    flex-flow: wrap;
+    gap: 15px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.bookCard {
+    border-radius: 20px;
+    border: 1px solid;
+    text-align: center;
+    padding: 10px 25px;
+    background: #f0f8ff;
+    cursor: pointer;
+    transition: background .4s ease-in-out;
+    -webkit-transition: background .4s ease-in-out;
+    -moz-transition: background .4s ease-in-out;
+    -ms-transition: background .4s ease-in-out;
+    -o-transition: background .4s ease-in-out;
+}
+
+.bookCard:hover {
+    background: #d1e9ff;
+}

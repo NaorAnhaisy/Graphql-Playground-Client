@@ -3,6 +3,9 @@ import { useEffect } from "react";
 import { useAppContext } from "../../context/state";
 import { getAllAuthors } from "../../graphql/queries";
 
+// Components:
+import { Form } from "react-bootstrap";
+
 interface Props {
   onChangeAuthor: Function;
 }
@@ -23,16 +26,14 @@ export default function AuthorsSelect({ onChangeAuthor }: Props) {
   if (error) return <p>Get authors error! {error.message}</p>;
 
   return (
-    <div>
-      <select onChange={(e) => onChangeAuthor(e.target.value)}>
-        {authors?.map((author: any) => {
-          return (
-            <option key={author.id} value={author.id}>
-              {author.name}
-            </option>
-          );
-        })}
-      </select>
-    </div>
+    <Form.Select onChange={(e) => onChangeAuthor(e.target.value)}>
+      {authors?.map((author: any) => {
+        return (
+          <option key={author.id} value={author.id}>
+            {author.name}
+          </option>
+        );
+      })}
+    </Form.Select>
   );
 }

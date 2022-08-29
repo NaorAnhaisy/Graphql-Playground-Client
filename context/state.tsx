@@ -10,6 +10,8 @@ type AppContextType = {
   setBooks: React.Dispatch<React.SetStateAction<Book[] | null>>;
   authors: Author[] | null;
   setAuthors: React.Dispatch<React.SetStateAction<Author[] | null>>;
+  selectedBookID: string | null;
+  setSelectedBookID: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 const initialAppContextState = {
@@ -17,6 +19,8 @@ const initialAppContextState = {
   setBooks: () => {},
   authors: null,
   setAuthors: () => {},
+  selectedBookID: null,
+  setSelectedBookID: () => {},
 };
 
 const AppContext = createContext<AppContextType>(initialAppContextState);
@@ -24,9 +28,19 @@ const AppContext = createContext<AppContextType>(initialAppContextState);
 export function AppWrapper({ children }: Props) {
   const [books, setBooks] = useState<Book[] | null>(null);
   const [authors, setAuthors] = useState<Author[] | null>(null);
+  const [selectedBookID, setSelectedBookID] = useState<string | null>(null);
 
   return (
-    <AppContext.Provider value={{ books, setBooks, authors, setAuthors }}>
+    <AppContext.Provider
+      value={{
+        books,
+        setBooks,
+        authors,
+        setAuthors,
+        selectedBookID,
+        setSelectedBookID,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

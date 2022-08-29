@@ -1,13 +1,14 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useLazyQuery } from "@apollo/client";
+import { useEffect } from "react";
 import { useAppContext } from "../../context/state";
 import { getAllBooks } from "../../graphql/queries";
+import styles from "./BooksCards.module.css";
 
 // Components:
-import BookDetails from "../BookDetails/BookDetails";
 import AddBook from "../AddBook/AddBook";
 
 export default function BooksCards() {
+  const { setSelectedBookID } = useAppContext();
   const [getBooks, { data, error, loading }] = useLazyQuery(getAllBooks, {
     fetchPolicy: "no-cache", // Used for first execution
   });
@@ -16,7 +17,6 @@ export default function BooksCards() {
     getBooks();
   }, [getBooks]);
 
-  const [selectedBook, setSelectedBook] = useState(null);
   const { books, setBooks } = useAppContext();
 
   useEffect(() => {
@@ -26,18 +26,19 @@ export default function BooksCards() {
   if (books)
     return (
       <div>
-        {books?.map((book: any) => {
-          return (
-            <div key={book.id} onClick={() => setSelectedBook(book.id)}>
-              {book.name}
-            </div>
-          );
-        })}
-        {selectedBook && <BookDetails bookID={selectedBook} />}
+        <div className={styles.booksCards}>
+          {books?.map((book: any) => {
+            return (
+              <div key={book.id} className={styles.bookCard} onClick={() => setSelectedBookID(book.id)}>
+                {book.name}
+              </div>
+            );
+          })}
+        </div>
         <AddBook refetch={() => getBooks()} />
       </div>
     );
-
-  if (loading) return <p>loading...</p>;
-  if (error) return <p>Some error occurred {error.message}</p>;
+  else if (loading) return <p>loading...</p>;
+  else if (error) return <p>Some error occurred {error.message}</p>;
+  else return <AddBook refetch={() => getBooks()} />;
 }
