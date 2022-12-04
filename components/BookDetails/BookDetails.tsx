@@ -17,7 +17,7 @@ interface AuthorBook {
   name: string;
 }
 
-export default function Books({ bookID, refetch }: Props) {
+export default function BookDetails({ bookID, refetch }: Props) {
   const { setSelectedBookID } = useAppContext();
 
   const { data, error, loading } = useQuery(getSpecificBook, {

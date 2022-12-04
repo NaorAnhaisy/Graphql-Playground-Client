@@ -1,28 +1,20 @@
 import styles from "./BooksCards.module.css";
-import { useEffect } from "react";
-import { useLazyQuery } from "@apollo/client";
+import { Book } from "../../types/types";
 import { useAppContext } from "../../context/state";
-import { getAllBooks } from "../../graphql/queries";
 
 // Components:
 import { LineWave } from "react-loader-spinner";
 import AddBook from "../AddBook/AddBook";
+import { ApolloError } from "@apollo/client";
 
-export default function BooksCards() {
-  const { books, setBooks, setSelectedBookID } = useAppContext();
+interface Props {
+  getBooks: Function;
+  loading: boolean;
+  error?: ApolloError;
+}
 
-  const [getBooks, { data, error, loading }] = useLazyQuery(getAllBooks, {
-    fetchPolicy: "no-cache", // Used for first execution
-  });
-
-  useEffect(() => {
-    getBooks();
-  }, [getBooks]);
-
-
-  useEffect(() => {
-    if (data) setBooks(data.books);
-  }, [data, setBooks]);
+export default function BooksCards({ getBooks, loading, error }: Props) {
+  const { books, setSelectedBookID } = useAppContext();
 
   if (books)
     return (
