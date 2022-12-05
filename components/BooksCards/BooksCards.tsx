@@ -3,6 +3,8 @@ import { useAppContext } from "../../context/state";
 import { LineWave } from "react-loader-spinner";
 import AddBook from "../AddBook/AddBook";
 import { ApolloError } from "@apollo/client";
+import autoAnimate from "@formkit/auto-animate";
+import { useEffect, useRef } from "react";
 
 interface Props {
   getBooks: Function;
@@ -12,6 +14,11 @@ interface Props {
 
 export default function BooksCards({ getBooks, loading, error }: Props) {
   const { books, setSelectedBookID } = useAppContext();
+  const parent = useRef(null);
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
 
   if (books)
     return (
@@ -34,13 +41,15 @@ export default function BooksCards({ getBooks, loading, error }: Props) {
     );
   else if (loading)
     return (
-      <LineWave
-        height="100"
-        width="100"
-        color="#4fa94d"
-        ariaLabel="line-wave"
-        visible={true}
-      />
+      <div ref={parent}>
+        <LineWave
+          height="100"
+          width="100"
+          color="#4fa94d"
+          ariaLabel="line-wave"
+          visible={true}
+        />
+      </div>
     );
   else if (error) return <p>Some error occurred {error.message}</p>;
   else return <AddBook refetch={() => getBooks()} />;
