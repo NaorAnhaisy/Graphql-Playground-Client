@@ -1,10 +1,8 @@
 import styles from "./BookDetails.module.css";
 import { useMutation, useQuery } from "@apollo/client";
-import { getSpecificBook } from "../../graphql/queries";
-import { deleteBookMutation } from "../../graphql/queries";
+import { getSpecificBook, deleteBookMutation } from "../../graphql/queries";
 import { useAppContext } from "../../context/state";
-
-// Components:
+import { Book } from "../../types/types";
 import { LineWave } from "react-loader-spinner";
 import { Button } from "react-bootstrap";
 
@@ -18,7 +16,7 @@ interface AuthorBook {
 }
 
 export default function BookDetails({ bookID, refetch }: Props) {
-  const { setSelectedBookID } = useAppContext();
+  const { books, setBooks, setSelectedBookID } = useAppContext();
 
   const { data, error, loading } = useQuery(getSpecificBook, {
     variables: { bookID },
@@ -27,10 +25,17 @@ export default function BookDetails({ bookID, refetch }: Props) {
   const [deleteBook, { error: deleteBookError, loading: deleteBookLoading }] =
     useMutation(deleteBookMutation);
 
+  function removeBookByID(booksArr: Book[] | null, id: string) {
+    return booksArr?.filter((book: Book) => book.id !== id) || booksArr;
+  }
+
   const deleteBookClicked = async () => {
     await deleteBook({ variables: { bookID: data.book.id } });
-    setSelectedBookID(null);
-    refetch();
+    if (!loading && !error) {
+      setSelectedBookID(null);
+      setBooks(removeBookByID(books, data.book.id));
+      refetch();
+    }
   };
 
   if (loading)

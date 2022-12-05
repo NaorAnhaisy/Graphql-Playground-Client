@@ -1,8 +1,5 @@
 import styles from "./BooksCards.module.css";
-import { Book } from "../../types/types";
 import { useAppContext } from "../../context/state";
-
-// Components:
 import { LineWave } from "react-loader-spinner";
 import AddBook from "../AddBook/AddBook";
 import { ApolloError } from "@apollo/client";

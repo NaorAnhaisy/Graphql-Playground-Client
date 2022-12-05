@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useAppContext } from "../context/state";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { getAllBooks } from "../graphql/queries";
 import { Row, Col } from "react-bootstrap";
 
@@ -13,13 +13,16 @@ import BookDetails from "../components/BookDetails/BookDetails";
 
 const Home: NextPage = () => {
   const { setBooks, selectedBookID } = useAppContext();
-  const [getBooks, { data, error, loading }] = useLazyQuery(getAllBooks, {
+  const { data, error, loading } = useQuery(getAllBooks);
+
+  const [getBooks] = useLazyQuery(getAllBooks, {
     fetchPolicy: "network-only",
     nextFetchPolicy: 'cache-first'
   });
 
   useEffect(() => {
     if (data) setBooks(data.books);
+    console.log("Books setted:",)
   }, [data, setBooks]);
 
   return (

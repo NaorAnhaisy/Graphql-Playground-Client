@@ -2,8 +2,6 @@ import styles from "./AddBook.module.css";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { addBookMutation } from "../../graphql/queries";
-
-// Components:
 import { Row, Col, Form, Button } from "react-bootstrap";
 import AuthorsSelect from "../AuthorsSelect/AuthorsSelect";
 
